@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    public float speed = 8f, maxVel = 4f;
-
+	public int speed = 8;
     private Rigidbody2D myBody;
     private Animator myAnim;
 
@@ -14,50 +13,27 @@ public class Player : MonoBehaviour {
         myBody = GetComponent<Rigidbody2D>();
         myAnim = GetComponent<Animator>();
     }
-
-	// Use this for initialization
-	void Start () {
 		
-	}
-	
 	void FixedUpdate () {
         Movement();
 	}
 
     void Movement()
     {
-        float forceX = 0f;
-        float vel = Mathf.Abs(myBody.velocity.x);
-        float h = Input.GetAxisRaw("Horizontal");
-
-        if(h > 0)
-        {
-            if (vel < maxVel)
-            {
-                Vector3 temp = transform.localScale;
-                temp.x = 4f;
-                transform.localScale = temp;
-
-                forceX = speed;
-                myAnim.SetBool("walk", true);
-            }
-        }
-        else if(h < 0){
-            if (vel < maxVel)
-            {
-                Vector3 temp = transform.localScale;
-                temp.x = -4f;
-                transform.localScale = temp;
-
-                forceX = -speed;
-                myAnim.SetBool("walk", true);
-            }
-        }
-        else
-        {
-            myAnim.SetBool("walk", false);
-        }
-
-        myBody.AddForce(new Vector2(forceX, 0));
+		if (Input.GetKey (KeyCode.LeftArrow)) {
+			transform.Translate (-speed * Time.deltaTime, 0, 0);
+			myAnim.SetBool ("walk", true);
+			Vector3 temp = transform.localScale;
+			temp.x = -4f;
+			transform.localScale = temp;
+		} else if (Input.GetKey (KeyCode.RightArrow)) {
+			transform.Translate (speed * Time.deltaTime, 0, 0);
+			myAnim.SetBool ("walk", true);
+			Vector3 temp = transform.localScale;
+			temp.x = 4f;
+			transform.localScale = temp;
+		} else {
+			myAnim.SetBool ("walk", false);
+		}
     }
 }
