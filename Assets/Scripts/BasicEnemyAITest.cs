@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BasicEnemyAITest : EnemyBase {
 
-    void Start() {
+    new void Start() {
         base.Start();
     }
 

@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿public class BasicEnemyAI : EnemyBase {
 
-public class BasicEnemyAI : EnemyBase {
-
-    void Start() {
+    new void Start() {
         base.Start();
     }
 
-    void Update() {
+    new void Update() {
         base.Update();
     }
 }
