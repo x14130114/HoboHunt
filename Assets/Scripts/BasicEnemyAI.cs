@@ -6,8 +6,8 @@ public class BasicEnemyAI : MonoBehaviour {
 
     public Transform playerTarget;
     public float movementSpeed;
+    public float jumpThreshold;
     private bool hasLanded;
-    private bool hasDirection;
     //private Time lastDeltaTime;
     private int jumpDirection;
 
@@ -15,7 +15,6 @@ public class BasicEnemyAI : MonoBehaviour {
 	void Start () {
         playerTarget = GameObject.FindWithTag("Player").transform;
         hasLanded = true;
-        hasDirection = true;
         jumpDirection = randomDirectionInt();
     }
 	
@@ -25,8 +24,13 @@ public class BasicEnemyAI : MonoBehaviour {
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(playerTarget.position.x, playerTarget.position.y), movementSpeed * Time.deltaTime);
 
         //Debug.Log("Delta Time == " + Time.deltaTime);
+        // Check if Player has landed
         if(hasLanded) {
-            if (playerTarget.position.y > (transform.position.y + 2)) {
+            // Check if players Y axis is Greater than the enemies Y axis by jumpThreshold units
+            Debug.Log("playerTarget.position = " + playerTarget.position.y);
+            Debug.Log("transform.position = " + transform.position.y);
+            Debug.Log("transform.position ++ = " + (playerTarget.position.y + jumpThreshold));
+            if ((playerTarget.position.y + jumpThreshold) > transform.position.y && playerTarget.position.x == transform.position.x) {
                 hasLanded = false;
                 transform.localScale = new Vector3(jumpDirection, 1, 1);
             } else {
@@ -42,16 +46,11 @@ public class BasicEnemyAI : MonoBehaviour {
         }
     }
 
-    private void randomDirection() {
-        float randomNumber = Random.Range(-1.5f, 1.0f);
-        int direction = (int)randomNumber;
-        
-        transform.localScale = new Vector3(direction, 1, 1);
-    }
-
+    // Method to create an integer of either 1 or -1
     private int randomDirectionInt() {
         float randomNumber = Random.Range(-1.0f, 1.0f);
         int direction = (int)randomNumber;
+
         while (direction == 0) {
             randomNumber = Random.Range(-1.0f, 1.0f);
             direction = (int)randomNumber;
@@ -59,8 +58,5 @@ public class BasicEnemyAI : MonoBehaviour {
         
         Debug.Log("Direction is :" + direction);
         return direction;
-        //return direction;
-        //Debug.Log("Direction is :" + direction);
-        //transform.localScale = new Vector3(direction, 1, 1);
     }
 }
