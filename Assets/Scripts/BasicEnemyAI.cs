@@ -2,34 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicEnemyAI : MonoBehaviour {
+public class BasicEnemyAI : EnemyBase {
 
-    public Transform playerTarget;
-    public float movementSpeed;
     public float jumpThreshold;
     private bool hasLanded;
-    //private Time lastDeltaTime;
     private int jumpDirection;
 
-	// Use this for initialization
-	void Start () {
-        playerTarget = GameObject.FindWithTag("Player").transform;
+    void Start() {
+        base.Start();
         hasLanded = true;
         jumpDirection = randomDirectionInt();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        // Keeps track of the enemies current position and changes it based on the location of the playerTarget AKA The Player
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(playerTarget.position.x, playerTarget.position.y), movementSpeed * Time.deltaTime);
 
-        //Debug.Log("Delta Time == " + Time.deltaTime);
+    void Update () {
+        base.Update();
+
         // Check if Player has landed
         if(hasLanded) {
             // Check if players Y axis is Greater than the enemies Y axis by jumpThreshold units
-            Debug.Log("playerTarget.position = " + playerTarget.position.y);
-            Debug.Log("transform.position = " + transform.position.y);
-            Debug.Log("transform.position ++ = " + (playerTarget.position.y + jumpThreshold));
             if ((playerTarget.position.y + jumpThreshold) > transform.position.y && playerTarget.position.x == transform.position.x) {
                 hasLanded = false;
                 transform.localScale = new Vector3(jumpDirection, 1, 1);
