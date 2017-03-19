@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicEnemyAI : EnemyBase {
+public class BasicEnemyAITest : EnemyBase {
 
     void Start() {
         base.Start();
     }
 
-    void Update() {
+    void Update () {
         base.Update();
+
     }
 }
